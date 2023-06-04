@@ -79,8 +79,17 @@ function addSearchToHistory(date) {
 document.getElementById("search-form").addEventListener("submit", function(event) {
     event.preventDefault();
     const selectedDate = document.getElementById("search-input").value;
+    const currentDate = new Date().toISOString().split("T")[0];
+
+    if (selectedDate > currentDate) {
+        // Display an error message or take appropriate action
+        alert("Invalid date selection. Please choose a date on or before the current date.");
+        return;
+    }
+
     getImageOfTheDay(selectedDate);
 });
+
 
 // Display the image of the current date when the page loads
 getCurrentImageOfTheDay();
