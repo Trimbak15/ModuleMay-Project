@@ -25,14 +25,17 @@ function getImageOfTheDay(selectedDate) {
     fetch(`https://api.nasa.gov/planetary/apod?date=${selectedDate}&api_key=${apiKey}`)
         .then(response => response.json())
         .then(data => {
+            // Format the selectedDate for display
+            const formattedDate = new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
             // Display data in the UI
             const currentImageContainer = document.getElementById("current-image-container");
             currentImageContainer.innerHTML = `
-            <h1>NASA Picture of the Day</h1>
-            <img src="${data.url}" alt="${data.title}">
-            <h3>${data.title}</h3>
-            <p>${data.explanation}</p>
-        `;
+                <h1>NASA Picture on ${formattedDate}</h1>
+                <img src="${data.url}" alt="${data.title}">
+                <h3>${data.title}</h3>
+                <p>${data.explanation}</p>
+            `;
 
             // Save the date to local storage and add it to the search history
             saveSearch(selectedDate);
@@ -40,6 +43,7 @@ function getImageOfTheDay(selectedDate) {
         })
         .catch(error => console.log(error));
 }
+
 
 // Function to save a date to local storage
 function saveSearch(date) {
